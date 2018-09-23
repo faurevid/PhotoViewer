@@ -91,3 +91,9 @@ extension PhotoViewerViewController: UICollectionViewDataSource, UICollectionVie
         return CGRect(x: frame.origin.x + photoCollectionView.frame.origin.x, y: frame.origin.y + photoCollectionView.frame.origin.y - photoCollectionView.contentOffset.y, width: frame.width, height: frame.height)
     }
 }
+
+extension PhotoViewerViewController: UISearchBarDelegate{
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        presenter.fetchPhoto(fromSearch: searchBar.text!)
+    }
+}

@@ -19,4 +19,5 @@ protocol PhotoViewerPresenterProtocol: class {
     func willShow(cell: PhotoViewerCell, indexPath: IndexPath)
     func prepare(for segue: UIStoryboardSegue)
     func openDetail(originalCell: PhotoViewerCell, indexPath: IndexPath)
+    func fetchPhoto(fromSearch: String)
 }

@@ -18,7 +18,7 @@ class PhotoViewerPresenter {
     
     init(view: PhotoViewerViewControllerProtocol!){
         self.view = view
-        self.fetchPhoto()
+        self.fetchPhoto(fromSearch: "Cuisine")
     }
 }
 
@@ -37,9 +37,11 @@ extension PhotoViewerPresenter: PhotoViewerPresenterProtocol{
     }
     
     
-    func fetchPhoto(){
+    func fetchPhoto(fromSearch: String){
         //Gets the images from Flickr
-        let urlString: String = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(PhotoViewerPresenter.apiKey)&tags=cuisine&per_page=25&format=json&nojsoncallback=1"
+        let encoded = fromSearch.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+
+        let urlString: String = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(PhotoViewerPresenter.apiKey)&tags=\(encoded)&per_page=25&format=json&nojsoncallback=1"
         let url: NSURL = NSURL(string: urlString)!
         let searchTask = URLSession.shared.dataTask(with: url as URL, completionHandler: {data, response, error -> Void in
             
