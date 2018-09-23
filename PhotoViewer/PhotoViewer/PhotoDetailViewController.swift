@@ -18,6 +18,17 @@ class PhotoDetailViewController: UIViewController {
     @IBOutlet weak var photo: UIImageView!
     @IBOutlet weak var photoTitle: UILabel!
     
+    //Landscape mode management
+    @IBOutlet weak var scrollViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollViewBottomLandscapeConstraint: NSLayoutConstraint!
+    var portraitBottomContraint : NSLayoutConstraint!
+    var landscapeBottomContraint : NSLayoutConstraint!
+    
+    @IBOutlet weak var scrollViewTopLandscapeConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollViewTopConstraint: NSLayoutConstraint!
+    var portraitTopContraint : NSLayoutConstraint!
+    var landscapeTopContraint : NSLayoutConstraint!
+    
     //Used for the animation
     var originalCell: PhotoViewerCell?
     var originalFrame:CGRect?
@@ -38,6 +49,16 @@ class PhotoDetailViewController: UIViewController {
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(PhotoDetailViewController.longPressed(sender:)))
         self.photo.addGestureRecognizer(longPressRecognizer)
         
+        //Keeps a reference of the constraints for portrait/landscape mode management
+        portraitBottomContraint = scrollViewBottomConstraint
+        landscapeBottomContraint = scrollViewBottomLandscapeConstraint
+        
+        portraitTopContraint = scrollViewTopConstraint
+        landscapeTopContraint = scrollViewTopLandscapeConstraint
+        
+        //Handles the constraint when view is load
+        handleOrientation()
+        
     }
     
     @objc func longPressed(sender: UILongPressGestureRecognizer) {
@@ -50,6 +71,29 @@ class PhotoDetailViewController: UIViewController {
         //Present the view controller
         self.present(activityViewController, animated: true, completion: nil)
         
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        handleOrientation()
+    }
+    
+    private func handleOrientation(){
+        //Image is in fullscreen when device is on landscape mode
+        if UIDevice.current.orientation.isLandscape {
+            portraitBottomContraint.isActive = false
+            landscapeBottomContraint.isActive = true
+            
+            portraitTopContraint.isActive = false
+            landscapeTopContraint.isActive = true
+        } else {
+            landscapeBottomContraint.isActive = false
+            portraitBottomContraint.isActive = true
+            
+            landscapeTopContraint.isActive = false
+            portraitTopContraint.isActive = true
+        }
+        containerView.layoutIfNeeded()
     }
     
     @IBAction func backPressed(_ sender: Any) {
