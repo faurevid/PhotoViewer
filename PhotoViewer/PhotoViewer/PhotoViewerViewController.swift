@@ -2,7 +2,7 @@
 //  PhotoViewerViewController.swift
 //  PhotoViewer
 //
-//  Created by FAURE-VIDAL Laurene (Prestataire)  [IT-CE] on 21/09/2018.
+//  Created by FAURE-VIDAL Laurene on 21/09/2018.
 //  Copyright © 2018 FAURE-VIDAL Laurene. All rights reserved.
 //
 
@@ -14,9 +14,10 @@ class PhotoViewerViewController: UIViewController{
     
     @IBOutlet weak var photoCollectionView: UICollectionView!
     
-    //Animation
+    //Used for the animation
     var originalFrame:CGRect?
     var originalCell: PhotoViewerCell?
+    static let sectionInset: CGFloat = 7.0
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -24,16 +25,18 @@ class PhotoViewerViewController: UIViewController{
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "zoomInPhoto",
-            let destination = segue.destination as? PhotoDetailViewController {
-            //destination.transaction = selectedTransaction
-            destination.originalCell = originalCell
-        }
+        presenter.prepare(for: segue)
     }
 }
 //MARK: PhotoViewerViewControllerProtocol
 extension PhotoViewerViewController: PhotoViewerViewControllerProtocol{
+    func reloadData() {
+        photoCollectionView.reloadData()
+    }
     
+    func openDetail() {
+        self.performSegue(withIdentifier: "zoomInPhoto", sender: nil)
+    }
 }
 
 //MARK: CollectionView Manager
@@ -50,35 +53,31 @@ extension PhotoViewerViewController: UICollectionViewDataSource, UICollectionVie
         return cell
     }
     
-    func calculateSectionInset() -> CGFloat {
-        return 7
-    }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let inset: CGFloat = calculateSectionInset()
-        let photoWidth = (photoCollectionView.collectionViewLayout.collectionView!.frame.size.width - inset * 2)/3
+        //Sets the cell size so that they expand according to the size of the device
+        let inset: CGFloat = PhotoViewerViewController.sectionInset
+        let photoWidth = (photoCollectionView.collectionViewLayout.collectionView!.frame.size.width - inset * 2)/3 //3 cells per line
         return CGSize(width: photoWidth, height: photoWidth)
         
     }
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 7.0
+        return PhotoViewerViewController.sectionInset
     }
     
     func collectionView(_ collectionView: UICollectionView, layout
         collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 7.0
+        return PhotoViewerViewController.sectionInset
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //Saves position for animation
         originalCell = collectionView.cellForItem(at: indexPath) as? PhotoViewerCell
         if let cell = originalCell {
             originalFrame = view.window?.convert(cell.frame, to: view.window)
         }
-        
-        self.performSegue(withIdentifier: "zoomInPhoto", sender: nil)
+        presenter.openDetail(originalCell: originalCell!, indexPath: indexPath)
     }
 }

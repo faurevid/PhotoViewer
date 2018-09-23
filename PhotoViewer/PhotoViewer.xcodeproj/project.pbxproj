@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D5DF9D652154F51600409D50 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9D642154F51600409D50 /* AppDelegate.swift */; };
-		D5DF9D672154F51600409D50 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9D662154F51600409D50 /* ViewController.swift */; };
 		D5DF9D6A2154F51600409D50 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5DF9D682154F51600409D50 /* Main.storyboard */; };
 		D5DF9D6C2154F51D00409D50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5DF9D6B2154F51D00409D50 /* Assets.xcassets */; };
 		D5DF9D6F2154F51D00409D50 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5DF9D6D2154F51D00409D50 /* LaunchScreen.storyboard */; };
@@ -25,6 +24,10 @@
 		D5DF9DA421551EE900409D50 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9DA321551EE900409D50 /* PhotoDetailViewController.swift */; };
 		D5DF9DA62155201800409D50 /* UIViewKeyframeAnimationOptions+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9DA52155201800409D50 /* UIViewKeyframeAnimationOptions+extension.swift */; };
 		D5DF9DA82155276F00409D50 /* PhotoViewerNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9DA72155276F00409D50 /* PhotoViewerNavigationController.swift */; };
+		D5DF9DAA2155AB8100409D50 /* FlickrPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9DA92155AB8100409D50 /* FlickrPhoto.swift */; };
+		D5DF9DAC2156364400409D50 /* UIImageView+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9DAB2156364400409D50 /* UIImageView+extensions.swift */; };
+		D5DF9DAE21563AB900409D50 /* PhotoDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9DAD21563AB900409D50 /* PhotoDetailPresenter.swift */; };
+		D5DF9DB021563AF000409D50 /* PhotoDetailProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9DAF21563AF000409D50 /* PhotoDetailProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +50,6 @@
 /* Begin PBXFileReference section */
 		D5DF9D612154F51600409D50 /* PhotoViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5DF9D642154F51600409D50 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D5DF9D662154F51600409D50 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D5DF9D692154F51600409D50 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D5DF9D6B2154F51D00409D50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D5DF9D6E2154F51D00409D50 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -69,6 +71,10 @@
 		D5DF9DA321551EE900409D50 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		D5DF9DA52155201800409D50 /* UIViewKeyframeAnimationOptions+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewKeyframeAnimationOptions+extension.swift"; sourceTree = "<group>"; };
 		D5DF9DA72155276F00409D50 /* PhotoViewerNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerNavigationController.swift; sourceTree = "<group>"; };
+		D5DF9DA92155AB8100409D50 /* FlickrPhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrPhoto.swift; sourceTree = "<group>"; };
+		D5DF9DAB2156364400409D50 /* UIImageView+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+extensions.swift"; sourceTree = "<group>"; };
+		D5DF9DAD21563AB900409D50 /* PhotoDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailPresenter.swift; sourceTree = "<group>"; };
+		D5DF9DAF21563AF000409D50 /* PhotoDetailProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,7 +127,6 @@
 			children = (
 				D5DF9D9A21551BD400409D50 /* Animation */,
 				D5DF9D642154F51600409D50 /* AppDelegate.swift */,
-				D5DF9D662154F51600409D50 /* ViewController.swift */,
 				D5DF9D682154F51600409D50 /* Main.storyboard */,
 				D5DF9D6B2154F51D00409D50 /* Assets.xcassets */,
 				D5DF9D6D2154F51D00409D50 /* LaunchScreen.storyboard */,
@@ -132,6 +137,10 @@
 				D5DF9D9821550A6600409D50 /* PhotoViewerCell.swift */,
 				D5DF9DA321551EE900409D50 /* PhotoDetailViewController.swift */,
 				D5DF9DA72155276F00409D50 /* PhotoViewerNavigationController.swift */,
+				D5DF9DA92155AB8100409D50 /* FlickrPhoto.swift */,
+				D5DF9DAB2156364400409D50 /* UIImageView+extensions.swift */,
+				D5DF9DAD21563AB900409D50 /* PhotoDetailPresenter.swift */,
+				D5DF9DAF21563AF000409D50 /* PhotoDetailProtocol.swift */,
 			);
 			path = PhotoViewer;
 			sourceTree = "<group>";
@@ -301,13 +310,16 @@
 				D5DF9D9E21551D3A00409D50 /* SlideInteractionController.swift in Sources */,
 				D5DF9D9921550A6600409D50 /* PhotoViewerCell.swift in Sources */,
 				D5DF9D972155042100409D50 /* PhotoViewerProtocol.swift in Sources */,
-				D5DF9D672154F51600409D50 /* ViewController.swift in Sources */,
 				D5DF9DA221551E3200409D50 /* TransitionAnimatorViewControllerProtocol.swift in Sources */,
 				D5DF9DA421551EE900409D50 /* PhotoDetailViewController.swift in Sources */,
 				D5DF9DA62155201800409D50 /* UIViewKeyframeAnimationOptions+extension.swift in Sources */,
 				D5DF9D952155041700409D50 /* PhotoViewerPresenter.swift in Sources */,
+				D5DF9DAC2156364400409D50 /* UIImageView+extensions.swift in Sources */,
+				D5DF9DAE21563AB900409D50 /* PhotoDetailPresenter.swift in Sources */,
+				D5DF9DB021563AF000409D50 /* PhotoDetailProtocol.swift in Sources */,
 				D5DF9D652154F51600409D50 /* AppDelegate.swift in Sources */,
 				D5DF9D9C21551BF400409D50 /* ZoomInAnimationController.swift in Sources */,
+				D5DF9DAA2155AB8100409D50 /* FlickrPhoto.swift in Sources */,
 				D5DF9DA021551D7D00409D50 /* UIViewController+extensions.swift in Sources */,
 				D5DF9D932155040600409D50 /* PhotoViewerViewController.swift in Sources */,
 			);

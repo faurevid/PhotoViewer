@@ -2,7 +2,7 @@
 //  ZoomInAnimationController.swift
 //  PhotoViewer
 //
-//  Created by FAURE-VIDAL Laurene (Prestataire)  [IT-CE] on 21/09/2018.
+//  Created by FAURE-VIDAL Laurene on 21/09/2018.
 //  Copyright © 2018 FAURE-VIDAL Laurene. All rights reserved.
 //
 
@@ -55,7 +55,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         containerView.insertSubview(iView, at: 0)
         
         toView.layoutIfNeeded()
-        endingFrame = (transitionContext.viewController(forKey: .to) as? PhotoDetailViewController)?.photo.frame
+        endingFrame = (toViewController as? PhotoDetailViewController)?.photo.frame
         
         iView.frame = center
         iView.backgroundColor = .clear
