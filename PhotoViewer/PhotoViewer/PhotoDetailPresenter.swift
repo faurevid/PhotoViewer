@@ -26,4 +26,21 @@ extension PhotoDetailPresenter: PhotoDetailPresenterProtocol{
         //Shows the photo at selected index
         view.show(photo: flickrPhotos[currentIndex])
     }
+    
+    func openNextPhoto(){
+        openPhotoAt(index: currentIndex + 1)
+    }
+    func openPreviousPhoto(){
+        openPhotoAt(index: currentIndex - 1)
+    }
+    
+    private func openPhotoAt(index: Int){
+        if(index >= 0 && index < flickrPhotos.count){
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let nextPhoto = storyboard.instantiateViewController(withIdentifier: "PhotoDetailViewController") as! PhotoDetailViewController
+            let nextPresenter = PhotoDetailPresenter(view: nextPhoto, listOfPhotos: flickrPhotos, index: index)
+            nextPhoto.presenter = nextPresenter
+            view.openPhoto(viewController: nextPhoto, fromLeft: index < currentIndex)
+        }
+    }
 }

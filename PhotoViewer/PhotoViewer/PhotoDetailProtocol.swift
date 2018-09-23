@@ -10,9 +10,12 @@ import Foundation
 
 protocol PhotoDetailViewControllerProtocol: class {
     func show(photo: FlickrPhoto)
+    func openPhoto(viewController: PhotoDetailViewController, fromLeft: Bool)
 }
 
 protocol PhotoDetailPresenterProtocol: class {
     func willAppear()
+    func openNextPhoto()
+    func openPreviousPhoto()
 }
 

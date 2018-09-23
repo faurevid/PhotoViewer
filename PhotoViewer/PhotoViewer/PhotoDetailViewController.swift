@@ -59,8 +59,22 @@ class PhotoDetailViewController: UIViewController {
         //Handles the constraint when view is load
         handleOrientation()
         
+        //Defining the Various Swipe directions (left, right, up, down)
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.handleGesture(gesture:)))
+        swipeLeft.direction = .left
+        self.view.addGestureRecognizer(swipeLeft)
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.handleGesture(gesture:)))
+        swipeRight.direction = .right
+        self.view.addGestureRecognizer(swipeRight)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.handleGesture(gesture:)))
+        swipeDown.direction = .down
+        self.view.addGestureRecognizer(swipeDown)
+        
     }
     
+    //MARK: Longpress management
     @objc func longPressed(sender: UILongPressGestureRecognizer) {
         //Gives the possibility to share the photo
         //Set up activity view controller with image to share
@@ -73,6 +87,7 @@ class PhotoDetailViewController: UIViewController {
         
     }
     
+    //MARK: Orientation management
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         handleOrientation()
@@ -86,35 +101,82 @@ class PhotoDetailViewController: UIViewController {
             
             portraitTopContraint.isActive = false
             landscapeTopContraint.isActive = true
+            
+            photoTitle.isHidden = true
         } else {
             landscapeBottomContraint.isActive = false
             portraitBottomContraint.isActive = true
             
             landscapeTopContraint.isActive = false
             portraitTopContraint.isActive = true
+            
+            photoTitle.isHidden = false
         }
         containerView.layoutIfNeeded()
     }
     
+    //MARK: Gesture management
+    @objc func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
+        if gesture.direction == UISwipeGestureRecognizerDirection.right {
+            presenter.openPreviousPhoto()
+        }
+        else if gesture.direction == UISwipeGestureRecognizerDirection.left {
+            presenter.openNextPhoto()
+            
+        }
+        else if gesture.direction == UISwipeGestureRecognizerDirection.down {
+            //Closes view on swipe down
+            closeDetail()
+        }
+    }
+    
     @IBAction func backPressed(_ sender: Any) {
-        //Prepares the animation
+        closeDetail()
+    }
+    
+    private func closeDetail(){
+        //Prepares the animation before closing
         originalFrame = view.window?.convert(photo.frame, to: view.window)
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }
 //MARK: ScrollView delegate
 extension PhotoDetailViewController: UIScrollViewDelegate{
+    //MARK: Zoom management
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         //Scales the photo when zooming
         return photo
     }
+    
+    //MARK: Close on drag down
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if(scrollView.zoomScale == 1.0){ // Only close view on scroll down if image is not zoomed in
+            let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
+            if translation.y >= 0 {
+                //Scroll down
+                closeDetail()
+            }
+        }
+    }
 }
 //MARK: PhotoDetailViewControllerProtocol
-extension PhotoDetailViewController: PhotoDetailViewControllerProtocol{
+extension PhotoDetailViewController: PhotoDetailViewControllerProtocol, CAAnimationDelegate{
     func show(photo: FlickrPhoto) {
         self.photo.image = photo.photoImage
         self.photoTitle.text = photo.title
     }
-    
+    func openPhoto(viewController: PhotoDetailViewController, fromLeft: Bool) {
+        if(fromLeft){
+            //Animates the push transition from left to right if user opens previous photo
+            let transition = CATransition.init()
+            transition.duration = 0.35
+            transition.timingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionDefault)
+            transition.type = kCATransitionPush
+            transition.subtype = kCATransitionFromLeft
+            transition.delegate = self
+            view.window!.layer.add(transition, forKey: kCATransition)
+        }
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
     
 }
