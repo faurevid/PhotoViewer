@@ -17,5 +17,6 @@ protocol PhotoDetailPresenterProtocol: class {
     func willAppear()
     func openNextPhoto()
     func openPreviousPhoto()
+    func getCurrentIndex() -> Int
 }
 

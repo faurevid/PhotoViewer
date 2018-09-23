@@ -73,11 +73,21 @@ extension PhotoViewerViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //Saves position for animation
-        originalCell = collectionView.cellForItem(at: indexPath) as? PhotoViewerCell
-        if let cell = originalCell {
-            originalFrame = view.window?.convert(cell.frame, to: view.window)
-        }
+        originalFrame = getOriginalFrame(fromIndex: indexPath)
         presenter.openDetail(originalCell: originalCell!, indexPath: indexPath)
+    }
+    
+    func getOriginalFrame(fromIndex: IndexPath) -> CGRect {
+        //Get cell position for animation
+        originalCell = photoCollectionView.cellForItem(at: fromIndex) as? PhotoViewerCell
+        originalFrame = calculateFrame(frame: (originalCell?.frame)!)
+        return originalFrame!
+    }
+    
+    private func calculateFrame(frame: CGRect) -> CGRect{
+        //Calculates the position of the cell in the view
+        //Adds collectionView origin to x and y position
+        //Substracts collectionView content offset to y position in case collectionView is scrolled down
+        return CGRect(x: frame.origin.x + photoCollectionView.frame.origin.x, y: frame.origin.y + photoCollectionView.frame.origin.y - photoCollectionView.contentOffset.y, width: frame.width, height: frame.height)
     }
 }

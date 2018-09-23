@@ -101,7 +101,7 @@ class ZoomInAnimationController: NSObject, UIViewControllerAnimatedTransitioning
         }
         
         originalFrame = fromViewController.originalFrame
-        endingFrame = (toViewController as? PhotoViewerViewController)?.originalFrame
+        endingFrame = (toViewController as? PhotoViewerViewController)?.getOriginalFrame(fromIndex: IndexPath(row: fromViewController.currentIndex, section: 0))
         
         let containerView = transitionContext.containerView
         

@@ -22,6 +22,10 @@ class PhotoDetailPresenter {
 }
 
 extension PhotoDetailPresenter: PhotoDetailPresenterProtocol{
+    func getCurrentIndex() -> Int {
+        return currentIndex
+    }
+    
     func willAppear() {
         //Shows the photo at selected index
         view.show(photo: flickrPhotos[currentIndex])

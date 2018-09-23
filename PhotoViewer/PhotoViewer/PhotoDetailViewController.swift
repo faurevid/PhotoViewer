@@ -32,6 +32,7 @@ class PhotoDetailViewController: UIViewController {
     //Used for the animation
     var originalCell: PhotoViewerCell?
     var originalFrame:CGRect?
+    var currentIndex: Int = 0
     
     override func viewWillAppear(_ animated: Bool) {
         presenter.willAppear()
@@ -39,7 +40,7 @@ class PhotoDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        currentIndex = presenter.getCurrentIndex()
         //Gives the possibility to zoom on the image
         photoScrollView.contentSize = photoScrollView.frame.size
         photoScrollView.minimumZoomScale = 1.0
