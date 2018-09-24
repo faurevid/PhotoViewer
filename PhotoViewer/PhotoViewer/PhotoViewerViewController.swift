@@ -12,7 +12,10 @@ import UIKit
 class PhotoViewerViewController: UIViewController{
     var presenter : PhotoViewerPresenterProtocol!
     
+    @IBOutlet weak var loader: UIActivityIndicatorView!
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var photoCollectionView: UICollectionView!
+    @IBOutlet weak var noResultLbl: UILabel!
     
     //Used for the animation
     var originalFrame:CGRect?
@@ -24,6 +27,9 @@ class PhotoViewerViewController: UIViewController{
         presenter = PhotoViewerPresenter(view: self)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         presenter.prepare(for: segue)
     }
@@ -31,11 +37,37 @@ class PhotoViewerViewController: UIViewController{
 //MARK: PhotoViewerViewControllerProtocol
 extension PhotoViewerViewController: PhotoViewerViewControllerProtocol{
     func reloadData() {
+        stopLoader()
         photoCollectionView.reloadData()
     }
     
     func openDetail() {
         self.performSegue(withIdentifier: "zoomInPhoto", sender: nil)
+    }
+    
+    func startLoader(){
+        if let loader = self.loader{
+            photoCollectionView.isHidden = true
+            loader.startAnimating()
+        }
+    }
+    func stopLoader(){
+        if let loader = self.loader{
+            if(presenter.numberOfPhotos() > 0){
+                noResultLbl.isHidden = true
+                photoCollectionView.isHidden = false
+            }
+            else{
+                noResultLbl.text = String(format: "Oops! There are no matches for “%@”.\r\nPlease try broadening your search.", searchBar.text!)
+                photoCollectionView.isHidden = true
+                noResultLbl.isHidden = false
+            }
+            loader.stopAnimating()
+        }
+    }
+    func displayError(error: String) {
+        stopLoader()
+        noResultLbl.text = "An error occured, please try again"
     }
 }
 
@@ -90,10 +122,16 @@ extension PhotoViewerViewController: UICollectionViewDataSource, UICollectionVie
         //Substracts collectionView content offset to y position in case collectionView is scrolled down
         return CGRect(x: frame.origin.x + photoCollectionView.frame.origin.x, y: frame.origin.y + photoCollectionView.frame.origin.y - photoCollectionView.contentOffset.y, width: frame.width, height: frame.height)
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
+    }
 }
 
 extension PhotoViewerViewController: UISearchBarDelegate{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        //Hides the keyboard and launches the research
+        searchBar.resignFirstResponder()
         presenter.fetchPhoto(fromSearch: searchBar.text!)
     }
 }

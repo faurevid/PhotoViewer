@@ -12,6 +12,9 @@ import UIKit
 protocol PhotoViewerViewControllerProtocol: class {
     func reloadData()
     func openDetail()
+    func startLoader()
+    func stopLoader()
+    func displayError(error: String)
 }
 
 protocol PhotoViewerPresenterProtocol: class {

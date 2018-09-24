@@ -39,6 +39,8 @@ extension PhotoViewerPresenter: PhotoViewerPresenterProtocol{
     
     func fetchPhoto(fromSearch: String){
         //Gets the images from Flickr
+        view.startLoader()
+        self.flickrPhotos.removeAll()
         let encoded = fromSearch.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
 
         let urlString: String = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(PhotoViewerPresenter.apiKey)&tags=\(encoded)&per_page=25&format=json&nojsoncallback=1"
@@ -46,7 +48,8 @@ extension PhotoViewerPresenter: PhotoViewerPresenterProtocol{
         let searchTask = URLSession.shared.dataTask(with: url as URL, completionHandler: {data, response, error -> Void in
             
             if error != nil {
-                print("Error fetching photos: \(error)")
+                print("Error fetching photos: \(error.debugDescription)")
+                DispatchQueue.main.async {self.view.displayError(error: error.debugDescription)}
                 return
             }
             
@@ -59,6 +62,7 @@ extension PhotoViewerPresenter: PhotoViewerPresenterProtocol{
                     if statusCode == 100 { //invalidAccessErrorCode
                         let invalidAccessError = NSError(domain: "com.flickr.api", code: statusCode, userInfo: nil)
                         print("Error with access: \(invalidAccessError)")
+                        DispatchQueue.main.async {self.view.displayError(error: error.debugDescription)}
                         return
                     }
                 }
