@@ -18,7 +18,7 @@ class PhotoViewerPresenter {
     
     init(view: PhotoViewerViewControllerProtocol!){
         self.view = view
-        self.fetchPhoto(fromSearch: "Cuisine")
+        self.fetchPhoto(fromSearch: "Cuisine", pagination: 1)
     }
 }
 
@@ -36,14 +36,23 @@ extension PhotoViewerPresenter: PhotoViewerPresenterProtocol{
         cell.show(image: data.photoUrl)
     }
     
-    
-    func fetchPhoto(fromSearch: String){
+    /**
+     Fetches photos from Flickr
+     - Parameters:
+        - fromSearch: the string to search from
+        - pagination: which page of search
+ */
+    func fetchPhoto(fromSearch: String, pagination: Int){
         //Gets the images from Flickr
         view.startLoader()
-        self.flickrPhotos.removeAll()
+        if(pagination == 1){
+            //Only empty array if it's a new search
+            self.flickrPhotos.removeAll()
+        }
+        //String encoding to pass in the url
         let encoded = fromSearch.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
 
-        let urlString: String = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(PhotoViewerPresenter.apiKey)&tags=\(encoded)&per_page=25&format=json&nojsoncallback=1"
+        let urlString: String = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(PhotoViewerPresenter.apiKey)&tags=\(encoded)&per_page=25&format=json&nojsoncallback=1&page=\(pagination)"
         let url: NSURL = NSURL(string: urlString)!
         let searchTask = URLSession.shared.dataTask(with: url as URL, completionHandler: {data, response, error -> Void in
             
@@ -67,10 +76,13 @@ extension PhotoViewerPresenter: PhotoViewerPresenterProtocol{
                     }
                 }
                 guard let photosContainer = resultsDictionary!["photos"] as? NSDictionary else { return }
-                guard let photosArray = photosContainer["photo"] as? [NSDictionary] else { return }
+                guard let photosArray = photosContainer["photo"] as? [NSDictionary], photosArray.count > 0 else {
+                    DispatchQueue.main.async {self.view.stopLoader()}
+                    return
+                }
                 
                 //Creates the array of photos
-                self.flickrPhotos = photosArray.map { photoDictionary in
+                self.flickrPhotos += photosArray.map { photoDictionary in
                     
                     let photoId = photoDictionary["id"] as? String ?? ""
                     let farm = photoDictionary["farm"] as? Int ?? 0
@@ -92,7 +104,7 @@ extension PhotoViewerPresenter: PhotoViewerPresenterProtocol{
         })
         searchTask.resume()
     }
-    
+    /** Opens the details of the selected photo */
     func openDetail(originalCell: PhotoViewerCell, indexPath: IndexPath) {
         self.originalCell = originalCell
         self.selectedIndex = indexPath.row

@@ -20,7 +20,7 @@ class PhotoDetailPresenter {
         self.currentIndex = index
     }
 }
-
+//MARK: PhotoDetailPresenterProtocol
 extension PhotoDetailPresenter: PhotoDetailPresenterProtocol{
     func getCurrentIndex() -> Int {
         return currentIndex
@@ -31,6 +31,7 @@ extension PhotoDetailPresenter: PhotoDetailPresenterProtocol{
         view.show(photo: flickrPhotos[currentIndex])
     }
     
+    //MARK: Navigation
     func openNextPhoto(){
         openPhotoAt(index: currentIndex + 1)
     }
@@ -48,3 +49,4 @@ extension PhotoDetailPresenter: PhotoDetailPresenterProtocol{
         }
     }
 }
+

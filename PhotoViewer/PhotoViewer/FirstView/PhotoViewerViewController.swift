@@ -17,11 +17,16 @@ class PhotoViewerViewController: UIViewController{
     @IBOutlet weak var photoCollectionView: UICollectionView!
     @IBOutlet weak var noResultLbl: UILabel!
     
-    //Used for the animation
+    //MARK: Pagination
+    var currentPagination: Int = 1
+    var isNewDataLoading:Bool = false
+    
+    //MARK: Used for the animation
     var originalFrame:CGRect?
     var originalCell: PhotoViewerCell?
     static let sectionInset: CGFloat = 7.0
     
+    //MARK: LifeCycle
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         presenter = PhotoViewerPresenter(view: self)
@@ -38,6 +43,7 @@ class PhotoViewerViewController: UIViewController{
 extension PhotoViewerViewController: PhotoViewerViewControllerProtocol{
     func reloadData() {
         stopLoader()
+        isNewDataLoading = false
         photoCollectionView.reloadData()
     }
     
@@ -45,9 +51,11 @@ extension PhotoViewerViewController: PhotoViewerViewControllerProtocol{
         self.performSegue(withIdentifier: "zoomInPhoto", sender: nil)
     }
     
+    //MARK: Loader Management
     func startLoader(){
         if let loader = self.loader{
-            photoCollectionView.isHidden = true
+            photoCollectionView.isHidden = currentPagination == 1
+            noResultLbl.isHidden = true
             loader.startAnimating()
         }
     }
@@ -65,6 +73,8 @@ extension PhotoViewerViewController: PhotoViewerViewControllerProtocol{
             loader.stopAnimating()
         }
     }
+    
+    //MARK: Error display
     func displayError(error: String) {
         stopLoader()
         noResultLbl.text = "An error occured, please try again"
@@ -109,22 +119,44 @@ extension PhotoViewerViewController: UICollectionViewDataSource, UICollectionVie
         presenter.openDetail(originalCell: originalCell!, indexPath: indexPath)
     }
     
+    /** Get cell position for animation */
     func getOriginalFrame(fromIndex: IndexPath) -> CGRect {
-        //Get cell position for animation
         originalCell = photoCollectionView.cellForItem(at: fromIndex) as? PhotoViewerCell
         originalFrame = calculateFrame(frame: (originalCell?.frame)!)
         return originalFrame!
     }
     
+
+    /**
+      Calculates the position of the cell in the view
+     
+      This method accepts a frame representing the original view and calculates its frame in the window.
+     Adds collectionView origin to x and y position
+     Substracts collectionView content offset to y position in case collectionView is scrolled down
+     - Parameters:
+        - frame: The frame representing the original view
+     
+     - returns: The frame of the view in the window
+     */
     private func calculateFrame(frame: CGRect) -> CGRect{
-        //Calculates the position of the cell in the view
-        //Adds collectionView origin to x and y position
-        //Substracts collectionView content offset to y position in case collectionView is scrolled down
         return CGRect(x: frame.origin.x + photoCollectionView.frame.origin.x, y: frame.origin.y + photoCollectionView.frame.origin.y - photoCollectionView.contentOffset.y, width: frame.width, height: frame.height)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        //Hides the keyboard
         searchBar.resignFirstResponder()
+    }
+    
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        //Detects scroll to bottom to launch pagination
+        if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height){
+            if !isNewDataLoading{
+                isNewDataLoading = true
+                currentPagination += 1
+                presenter.fetchPhoto(fromSearch: searchBar.text!, pagination: currentPagination)
+            }
+        }
     }
 }
 
@@ -132,6 +164,8 @@ extension PhotoViewerViewController: UISearchBarDelegate{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         //Hides the keyboard and launches the research
         searchBar.resignFirstResponder()
-        presenter.fetchPhoto(fromSearch: searchBar.text!)
+        //With a new search, pagination is set back to 1
+        currentPagination = 1
+        presenter.fetchPhoto(fromSearch: searchBar.text!, pagination: currentPagination)
     }
 }

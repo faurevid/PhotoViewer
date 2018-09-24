@@ -18,7 +18,7 @@ class PhotoDetailViewController: UIViewController {
     @IBOutlet weak var photo: UIImageView!
     @IBOutlet weak var photoTitle: UILabel!
     
-    //Landscape mode management
+    //MARK: Landscape mode management
     @IBOutlet weak var scrollViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollViewBottomLandscapeConstraint: NSLayoutConstraint!
     var portraitBottomContraint : NSLayoutConstraint!
@@ -29,11 +29,12 @@ class PhotoDetailViewController: UIViewController {
     var portraitTopContraint : NSLayoutConstraint!
     var landscapeTopContraint : NSLayoutConstraint!
     
-    //Used for the animation
+    //MARK: Used for the animation
     var originalCell: PhotoViewerCell?
     var originalFrame:CGRect?
     var currentIndex: Int = 0
     
+    //MARK: LifeCycle
     override func viewWillAppear(_ animated: Bool) {
         presenter.willAppear()
     }
@@ -41,6 +42,7 @@ class PhotoDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         currentIndex = presenter.getCurrentIndex()
+        
         //Gives the possibility to zoom on the image
         photoScrollView.contentSize = photoScrollView.frame.size
         photoScrollView.minimumZoomScale = 1.0
@@ -72,13 +74,31 @@ class PhotoDetailViewController: UIViewController {
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.handleGesture(gesture:)))
         swipeDown.direction = .down
         self.view.addGestureRecognizer(swipeDown)
-        
+        originalFrame = calculateFrame(frame: photo.frame)
+    }
+    
+    /**
+     Calculates the position of the cell in the view
+     
+     This method accepts a frame representing the original view and calculates its frame in the window.
+     Adds scrollView origin to x and y position
+     Adds containerView origin to x and y position
+   
+     - Parameters:
+        - frame: The frame representing the original view
+     
+     - returns: The frame of the view in the window
+     */
+    private func calculateFrame(frame: CGRect) -> CGRect{
+        return CGRect(x: frame.origin.x + photoScrollView.frame.origin.x + containerView.frame.origin.x, y: frame.origin.y + photoScrollView.frame.origin.y + containerView.frame.origin.y, width: frame.width, height: frame.height)
     }
     
     //MARK: Longpress management
+    /**
+     Gives the possibility to share the photo.
+     Set up activity view controller with image to share
+     */
     @objc func longPressed(sender: UILongPressGestureRecognizer) {
-        //Gives the possibility to share the photo
-        //Set up activity view controller with image to share
         let imageToShare = [ photo.image! ]
         let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
@@ -94,8 +114,10 @@ class PhotoDetailViewController: UIViewController {
         handleOrientation()
     }
     
+    /**
+        Handles the device orientation. On landscape mode, image is fullScreen
+     */
     private func handleOrientation(){
-        //Image is in fullscreen when device is on landscape mode
         if UIDevice.current.orientation.isLandscape {
             portraitBottomContraint.isActive = false
             landscapeBottomContraint.isActive = true
@@ -117,16 +139,17 @@ class PhotoDetailViewController: UIViewController {
     }
     
     //MARK: Gesture management
+    /**
+        Handles swipe right, left and down to switch to the next or previous image, or to close the detail view and go back to the collection
+    */
     @objc func handleGesture(gesture: UISwipeGestureRecognizer) -> Void {
         if gesture.direction == UISwipeGestureRecognizerDirection.right {
             presenter.openPreviousPhoto()
         }
         else if gesture.direction == UISwipeGestureRecognizerDirection.left {
             presenter.openNextPhoto()
-            
         }
         else if gesture.direction == UISwipeGestureRecognizerDirection.down {
-            //Closes view on swipe down
             closeDetail()
         }
     }
@@ -135,9 +158,9 @@ class PhotoDetailViewController: UIViewController {
         closeDetail()
     }
     
+    /** Prepares the animation before closing */
     private func closeDetail(){
-        //Prepares the animation before closing
-        originalFrame = view.window?.convert(photo.frame, to: view.window)
+        originalFrame = calculateFrame(frame: photo.frame)
         self.navigationController?.popToRootViewController(animated: true)
     }
 }
@@ -145,13 +168,12 @@ class PhotoDetailViewController: UIViewController {
 extension PhotoDetailViewController: UIScrollViewDelegate{
     //MARK: Zoom management
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        //Scales the photo when zooming
         return photo
     }
     
-    //MARK: Close on drag down
+    /** Closes view on drag down */
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if(scrollView.zoomScale == 1.0){ // Only close view on scroll down if image is not zoomed in
+        if(scrollView.zoomScale == 1.0){ // Only closes view on scroll down if image is not zoomed in
             let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
             if translation.y >= 0 {
                 //Scroll down
@@ -166,9 +188,15 @@ extension PhotoDetailViewController: PhotoDetailViewControllerProtocol, CAAnimat
         self.photo.image = photo.photoImage
         self.photoTitle.text = photo.title
     }
+    
+    /**
+     Animates the push transition from left to right if user opens previous photo
+     - Parameters:
+        - viewController: the next viewController
+        - fromLeft: must the viewController be opened from left
+     */
     func openPhoto(viewController: PhotoDetailViewController, fromLeft: Bool) {
         if(fromLeft){
-            //Animates the push transition from left to right if user opens previous photo
             let transition = CATransition.init()
             transition.duration = 0.35
             transition.timingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionDefault)

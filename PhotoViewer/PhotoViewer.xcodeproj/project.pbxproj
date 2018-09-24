@@ -18,7 +18,6 @@
 		D5DF9D972155042100409D50 /* PhotoViewerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9D962155042100409D50 /* PhotoViewerProtocol.swift */; };
 		D5DF9D9921550A6600409D50 /* PhotoViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9D9821550A6600409D50 /* PhotoViewerCell.swift */; };
 		D5DF9D9C21551BF400409D50 /* ZoomInAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9D9B21551BF400409D50 /* ZoomInAnimationController.swift */; };
-		D5DF9D9E21551D3A00409D50 /* SlideInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9D9D21551D3A00409D50 /* SlideInteractionController.swift */; };
 		D5DF9DA021551D7D00409D50 /* UIViewController+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9D9F21551D7D00409D50 /* UIViewController+extensions.swift */; };
 		D5DF9DA221551E3200409D50 /* TransitionAnimatorViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9DA121551E3200409D50 /* TransitionAnimatorViewControllerProtocol.swift */; };
 		D5DF9DA421551EE900409D50 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF9DA321551EE900409D50 /* PhotoDetailViewController.swift */; };
@@ -65,7 +64,6 @@
 		D5DF9D962155042100409D50 /* PhotoViewerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerProtocol.swift; sourceTree = "<group>"; };
 		D5DF9D9821550A6600409D50 /* PhotoViewerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerCell.swift; sourceTree = "<group>"; };
 		D5DF9D9B21551BF400409D50 /* ZoomInAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomInAnimationController.swift; sourceTree = "<group>"; };
-		D5DF9D9D21551D3A00409D50 /* SlideInteractionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideInteractionController.swift; sourceTree = "<group>"; };
 		D5DF9D9F21551D7D00409D50 /* UIViewController+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+extensions.swift"; sourceTree = "<group>"; };
 		D5DF9DA121551E3200409D50 /* TransitionAnimatorViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionAnimatorViewControllerProtocol.swift; sourceTree = "<group>"; };
 		D5DF9DA321551EE900409D50 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +100,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D57A247E21597CC40022D833 /* FirstView */ = {
+			isa = PBXGroup;
+			children = (
+				D5DF9D9821550A6600409D50 /* PhotoViewerCell.swift */,
+				D5DF9D922155040600409D50 /* PhotoViewerViewController.swift */,
+				D5DF9D942155041700409D50 /* PhotoViewerPresenter.swift */,
+				D5DF9D962155042100409D50 /* PhotoViewerProtocol.swift */,
+			);
+			path = FirstView;
+			sourceTree = "<group>";
+		};
+		D57A247F21597CE60022D833 /* SecondView */ = {
+			isa = PBXGroup;
+			children = (
+				D5DF9DA321551EE900409D50 /* PhotoDetailViewController.swift */,
+				D5DF9DAD21563AB900409D50 /* PhotoDetailPresenter.swift */,
+				D5DF9DAF21563AF000409D50 /* PhotoDetailProtocol.swift */,
+			);
+			path = SecondView;
+			sourceTree = "<group>";
+		};
+		D57A248021597EC30022D833 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				D5DF9DAB2156364400409D50 /* UIImageView+extensions.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		D57A248121597ECA0022D833 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D5DF9DA92155AB8100409D50 /* FlickrPhoto.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		D5DF9D582154F51600409D50 = {
 			isa = PBXGroup;
 			children = (
@@ -131,16 +166,11 @@
 				D5DF9D6B2154F51D00409D50 /* Assets.xcassets */,
 				D5DF9D6D2154F51D00409D50 /* LaunchScreen.storyboard */,
 				D5DF9D702154F51D00409D50 /* Info.plist */,
-				D5DF9D922155040600409D50 /* PhotoViewerViewController.swift */,
-				D5DF9D942155041700409D50 /* PhotoViewerPresenter.swift */,
-				D5DF9D962155042100409D50 /* PhotoViewerProtocol.swift */,
-				D5DF9D9821550A6600409D50 /* PhotoViewerCell.swift */,
-				D5DF9DA321551EE900409D50 /* PhotoDetailViewController.swift */,
+				D57A247E21597CC40022D833 /* FirstView */,
+				D57A247F21597CE60022D833 /* SecondView */,
 				D5DF9DA72155276F00409D50 /* PhotoViewerNavigationController.swift */,
-				D5DF9DA92155AB8100409D50 /* FlickrPhoto.swift */,
-				D5DF9DAB2156364400409D50 /* UIImageView+extensions.swift */,
-				D5DF9DAD21563AB900409D50 /* PhotoDetailPresenter.swift */,
-				D5DF9DAF21563AF000409D50 /* PhotoDetailProtocol.swift */,
+				D57A248121597ECA0022D833 /* Model */,
+				D57A248021597EC30022D833 /* Common */,
 			);
 			path = PhotoViewer;
 			sourceTree = "<group>";
@@ -167,7 +197,6 @@
 			isa = PBXGroup;
 			children = (
 				D5DF9D9B21551BF400409D50 /* ZoomInAnimationController.swift */,
-				D5DF9D9D21551D3A00409D50 /* SlideInteractionController.swift */,
 				D5DF9D9F21551D7D00409D50 /* UIViewController+extensions.swift */,
 				D5DF9DA121551E3200409D50 /* TransitionAnimatorViewControllerProtocol.swift */,
 				D5DF9DA52155201800409D50 /* UIViewKeyframeAnimationOptions+extension.swift */,
@@ -259,7 +288,6 @@
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 			);
 			mainGroup = D5DF9D582154F51600409D50;
@@ -307,7 +335,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5DF9DA82155276F00409D50 /* PhotoViewerNavigationController.swift in Sources */,
-				D5DF9D9E21551D3A00409D50 /* SlideInteractionController.swift in Sources */,
 				D5DF9D9921550A6600409D50 /* PhotoViewerCell.swift in Sources */,
 				D5DF9D972155042100409D50 /* PhotoViewerProtocol.swift in Sources */,
 				D5DF9DA221551E3200409D50 /* TransitionAnimatorViewControllerProtocol.swift in Sources */,
@@ -427,7 +454,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -481,7 +508,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
