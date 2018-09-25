@@ -18,7 +18,7 @@ class PhotoViewerPresenter {
     
     init(view: PhotoViewerViewControllerProtocol!){
         self.view = view
-        self.fetchPhoto(fromSearch: "Cuisine", pagination: 1)
+        self.fetchPhoto(fromSearch: "Cookies", pagination: 1)
     }
 }
 

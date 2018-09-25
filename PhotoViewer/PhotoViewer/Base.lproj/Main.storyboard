@@ -35,7 +35,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" text="Cuisine" placeholder="Search here ..." translatesAutoresizingMaskIntoConstraints="NO" id="VpS-5u-pIX">
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" text="Cookies" placeholder="Search here ..." translatesAutoresizingMaskIntoConstraints="NO" id="VpS-5u-pIX">
                                 <rect key="frame" x="0.0" y="20" width="375" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
@@ -100,7 +100,6 @@
                             <constraint firstItem="VpS-5u-pIX" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="R5E-yY-vyx"/>
                             <constraint firstItem="iU0-aX-KkK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="Rr5-xd-Qcx"/>
                             <constraint firstItem="iU0-aX-KkK" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Sha-ym-RaN"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="iU0-aX-KkK" secondAttribute="trailing" constant="20" id="UsT-Nz-asW"/>
                             <constraint firstItem="Igq-90-xXu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="7" id="bDy-LR-orn"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Igq-90-xXu" secondAttribute="trailing" constant="7" id="cz0-DD-q8J"/>
                             <constraint firstItem="rgJ-z8-yHx" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="gUh-9k-hiI"/>

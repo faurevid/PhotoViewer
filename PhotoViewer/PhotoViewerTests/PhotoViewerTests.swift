@@ -35,7 +35,7 @@ class PhotoViewerTests: XCTestCase {
     
     func testFetchPopular(){
         //Test with fetching a popular tag
-        firstViewPresenter.fetchPhoto(fromSearch: "Cuisine", pagination: 1)
+        firstViewPresenter.fetchPhoto(fromSearch: "Cookies", pagination: 1)
         sleep(5)
         XCTAssertTrue(firstViewPresenter.numberOfPhotos() > 0)
     }

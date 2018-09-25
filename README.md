@@ -27,5 +27,8 @@ I would have used the SDWebImage library to handle the photo displaying
 I would have worked on a smoother and better designed animation
 
 #### Performance optimization
+Caching the images 
 
 #### Add more Unit tests
+
+#### Better error management

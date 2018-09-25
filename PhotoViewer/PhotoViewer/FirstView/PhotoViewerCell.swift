@@ -21,5 +21,10 @@ class PhotoViewerCell: UICollectionViewCell, PhotoViewerCellProtocol{
         photo.load(url: image as URL)
     }
     
+    override func prepareForReuse() {
+        //To avoid displaying the wrong image on the wrong cell on scroll
+        photo.image = nil
+        super.prepareForReuse()
+    }
     
 }

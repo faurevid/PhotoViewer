@@ -91,7 +91,9 @@ extension PhotoViewerViewController: UICollectionViewDataSource, UICollectionVie
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCollectionCell", for: indexPath) as? PhotoViewerCell else{
             return UICollectionViewCell()
         }
-        presenter.willShow(cell: cell, indexPath: indexPath)
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.presenter.willShow(cell: cell, indexPath: indexPath)
+        }
         return cell
     }
     
